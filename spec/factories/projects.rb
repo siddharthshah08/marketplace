@@ -3,9 +3,9 @@ FactoryGirl.define do
     name { Faker::StarWars.character }
     description { Faker::Lorem.sentence }
     status { "Inactive" }
-    starts_at { Faker::Date.between(Date.today, Date.today + 4) }
-    ends_at { Faker::Date.between(Date.today + 4, Date.today + 10) }
-    accepting_bids_till { Faker::Date.between(4.days.ago, 2.days.ago) }
+    starts_at { DateTime.now + 5.days }
+    ends_at { DateTime.now + 10.days }
+    accepting_bids_till { DateTime.now + 3.days }
     seller
    end
 end

@@ -36,7 +36,17 @@ class CatchJsonParseErrors
      else
         raise error
      end
-    
+
+    rescue ActiveRecord::RecordNotSaved => error
+      if env['HTTP_ACCEPT'] =~ /application\/json/ || env['CONTENT_TYPE'] =~ /application\/json/
+       return [
+          422, { "Content-Type" => "application/json" },
+          [ { status: 422, error: error }.to_json ]
+       ]
+      else
+        raise error
+      end
+
     rescue StandardError => error
       if env['HTTP_ACCEPT'] =~ /application\/json/ || env['CONTENT_TYPE'] =~ /application\/json/
        return [
@@ -46,6 +56,7 @@ class CatchJsonParseErrors
       else
         raise error
       end
+
     end
   end
 end

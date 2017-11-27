@@ -3,7 +3,8 @@ class Bid < ApplicationRecord
   belongs_to :project
   validates_presence_of :rate
 
-  validate :bidding_is_still_active, :on => :create
+  #validate :bidding_is_still_active, :on => :create
+  before_create :bidding_is_still_active
   #after_create :update_project_minimum_bid
   after_create :update_project_minimum_bid_pq #, :add_self_as_observer
 
@@ -66,7 +67,9 @@ class Bid < ApplicationRecord
      if !project.nil?
 	 now = DateTime.now.utc
          if project.accepting_bids_till.utc < now
-           errors.add(:rate, "cannot be accepted as project is not accepting bids.")        
+           halt msg: 'Rate cannot be accepted as project is not accepting bids.'
+           #errors.add(:base, "cannot be accepted as project is not accepting bids.")        
+	   #throw(:abort)
      	end
      end
    end
