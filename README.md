@@ -52,6 +52,7 @@ Ruby on rails based application with capability of posting projects and bidding 
 ``` e.g. localhost:3000/sellers/2/projects/10 ```
 
 Status code responses 
+
     1. 200 Ok - When request is successful and returned with desired results.
     2. 201 Created - When request to create new record is successful.
     3. 204 No content - Request went through successfully and returned with no content.
