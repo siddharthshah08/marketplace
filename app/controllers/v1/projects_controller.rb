@@ -4,8 +4,10 @@ module V1
      before_action :set_project, only: [:show, :update, :destroy]
      before_action :set_min_bid, only: [:show]
      after_action only: [:index] { set_pagination_headers(:projects) }
+     after_action only: [:create] { set_created_link(:project) }
      before_action :set_status, only: [:create]
-  # GET /projects
+ 
+ # GET /projects
   def index  
     projects_index = ProjectsIndex.new(self)
     @projects = projects_index.projects

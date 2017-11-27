@@ -12,6 +12,13 @@ module Response
     headers['X-Total-Count'] = scope.total_entries 
   end
 
+  def set_created_link(name)
+    scope = instance_variable_get("@#{name}")
+    id = scope.id
+    url_without_params = request.url.split('?').first
+    headers['Link'] = "#{url_without_params}/#{id}"
+  end
+
   private
 
   def create_links(pages, scope)
