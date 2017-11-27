@@ -3,12 +3,16 @@ class Bid < ApplicationRecord
   belongs_to :project
   validates_presence_of :rate
 
-  before_create :bidding_is_still_active
+  validate :bidding_is_still_active, :on => :create
   #after_create :update_project_minimum_bid
   after_create :update_project_minimum_bid_pq #, :add_self_as_observer
 
   HOURLY = "Hourly"
   FIXED_RATE = "Fixed_rate"
+ 
+  OPEN = "Open"
+  CLOSED = "Closed"
+
   
   def update_project_minimum_bid
     project = Project.find(self.project_id)
@@ -59,9 +63,10 @@ class Bid < ApplicationRecord
 
    def bidding_is_still_active
      project = Project.find(self.project_id)
-     if !project.nil? 
-	if project.accepting_bids_till < DateTime.now
-       	  errors.add(:rate, " cannot be accepted as project is not accepting bids anymore.")
+     if !project.nil?
+	 now = DateTime.now.utc
+         if project.accepting_bids_till.utc < now
+           errors.add(:rate, "cannot be accepted as project is not accepting bids.")        
      	end
      end
    end

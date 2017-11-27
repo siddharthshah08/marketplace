@@ -14,10 +14,16 @@ class Project < ApplicationRecord
 
    
   def self.cease_bidding
-     now = Time.now
+     now = DateTime.now.utc
      projects = Project.where('accepting_bids_till < ?', now).update(:status => STATUS_BIDDING_CLOSED)
      if(!projects.nil? and projects.size >= 1)
         # change status of the bid from 'Open' to 'Closed'
+        bid_ids = projects.map(&:lowest_bid_id)
+	bids = Bid.find(bid_ids)
+	bids.each{ |bid| 
+	   bid.status = Bid::CLOSED 
+	   bid.save
+	}
         # create an entry in engagements table.
      end
   end

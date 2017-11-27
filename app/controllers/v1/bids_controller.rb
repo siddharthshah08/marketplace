@@ -20,12 +20,6 @@ module V1
     json_response(@bid)
   end
 
-  # PUT /bids/:id
-  def update
-    @bid.update(bid_params)
-    head :no_content
-  end
-
   # DELETE /bids/:id
   def destroy
     @bid.destroy
@@ -46,6 +40,7 @@ module V1
       duration = (project.ends_at - project.starts_at).to_i / (24 * 60 * 60)
       rate = params['rate']
       params['rate_type'] = (!params['rate_type'].blank? ? params['rate_type'] : Bid::HOURLY)
+      params['status'] = (!params['status'].blank? ? params['status'] : Bid::OPEN)
       case params['rate_type']
         when Bid::HOURLY
           bid_amount = (rate.to_f * duration.to_f * 8).round(2)

@@ -56,7 +56,7 @@ module V2
        if @seller.projects.ids.include? (params[:id].to_i)
     	  @project = Project.find(params[:id])
        else
-          raise ActiveRecord::RecordNotFound, "Project #{params[:id].inspect} does not belog to this #{@seller.id.inspect} seller"
+          raise ActiveRecord::RecordNotFound, "Project #{params[:id].inspect} does not belong to seller #{@seller.id.inspect}"
           # else raise ActiveRecord record not found project does not belong to this seller.
        end
     end
