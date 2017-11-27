@@ -48,7 +48,7 @@ Ruby on rails based application with capability of posting projects and bidding 
     ]
 }
 ```
-7. Version 2 is implements retriving of sub-resources in URL
+7. Version 2 implements retriving of sub-resources in URL (only for seller and projects)
 ``` e.g. localhost:3000/sellers/2/projects/10 ```
  Status code responses 
     1. 200 Ok - When request is successful and returned with desired results.
